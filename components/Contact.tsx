@@ -29,15 +29,6 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Validation Check
-  const isFormValid = 
-    formData.name.trim() !== '' &&
-    formData.phone.trim() !== '' &&
-    formData.phone.replace(/\D/g, '').length >= 10 && // Check for valid phone length (min 10 digits)
-    formData.origin !== '' &&
-    formData.procedure !== '' &&
-    formData.consent === true;
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
 
@@ -73,6 +64,14 @@ const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Custom Validation: Check Phone Length
+    // Native 'required' handles empty fields, but we need to ensure the phone is complete
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+        alert("Por favor, insira um número de telefone válido com DDD.");
+        return;
+    }
+
     if (!formData.consent) {
         alert("É necessário consentir com o cadastro.");
         return;
@@ -247,9 +246,9 @@ const Contact: React.FC = () => {
             
             <button
               type="submit"
-              disabled={isSubmitting || !isFormValid}
+              disabled={isSubmitting}
               className={`w-full py-4 font-bold rounded-lg shadow-lg transition-all transform text-base md:text-lg 
-                ${isSubmitting || !isFormValid 
+                ${isSubmitting 
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none' 
                   : 'bg-primary text-white hover:bg-yellow-600 hover:shadow-xl hover:-translate-y-0.5'
                 }`}
