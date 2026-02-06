@@ -1,8 +1,44 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SERVICES } from '../constants';
 
 const Services: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerView, setItemsPerView] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Responsive logic to determine how many items to show
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setItemsPerView(4);
+      } else if (window.innerWidth >= 768) {
+        setItemsPerView(2);
+      } else {
+        setItemsPerView(1);
+      }
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const totalSlides = Math.ceil(SERVICES.length / itemsPerView);
+  const maxIndex = Math.max(0, SERVICES.length - itemsPerView);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => 
+      prev + 1 > maxIndex ? 0 : prev + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => 
+      prev - 1 < 0 ? maxIndex : prev - 1
+    );
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
@@ -25,7 +61,7 @@ const Services: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16 space-y-3">
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
           <h2 className="text-xs md:text-sm font-bold tracking-widest text-primary uppercase">
             Nossas Especialidades
           </h2>
@@ -37,33 +73,75 @@ const Services: React.FC = () => {
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {SERVICES.map((service, index) => (
-            <div
-              key={index}
-              className="group bg-white p-6 md:p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary/30 text-center flex flex-col items-center"
+        {/* Carousel Container */}
+        <div className="relative group px-0 md:px-12">
+            
+            {/* Buttons - Hidden on mobile usually, but kept here for control */}
+            <button 
+                onClick={prevSlide}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 bg-white text-navy rounded-full shadow-lg hover:bg-primary hover:text-white transition-all hidden md:flex items-center justify-center border border-gray-100"
+                aria-label="Anterior"
             >
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                <service.icon size={28} className="text-primary group-hover:text-white md:w-8 md:h-8" />
-              </div>
-              <h4 className="text-lg md:text-xl font-display font-semibold text-navy mb-3">
-                {service.title}
-              </h4>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                {service.description}
-              </p>
+                <ChevronLeft size={24} />
+            </button>
+            
+            <button 
+                onClick={nextSlide}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 bg-white text-navy rounded-full shadow-lg hover:bg-primary hover:text-white transition-all hidden md:flex items-center justify-center border border-gray-100"
+                aria-label="Próximo"
+            >
+                <ChevronRight size={24} />
+            </button>
+
+            {/* Viewport */}
+            <div className="overflow-hidden py-4" ref={containerRef}>
+                <div 
+                    className="flex transition-transform duration-500 ease-in-out"
+                    style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
+                >
+                    {SERVICES.map((service, index) => (
+                        <div 
+                            key={index} 
+                            className="flex-shrink-0 w-full md:w-1/2 lg:w-1/4 px-3"
+                        >
+                            <div className="h-full bg-white p-6 md:p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary/30 text-center flex flex-col items-center">
+                                <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 text-primary">
+                                    <service.icon size={28} className="md:w-8 md:h-8" />
+                                </div>
+                                <h4 className="text-lg md:text-xl font-display font-semibold text-navy mb-3">
+                                    {service.title}
+                                </h4>
+                                <p className="text-gray-500 text-sm leading-relaxed">
+                                    {service.description}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
-          ))}
+            
+            {/* Mobile Navigation Dots */}
+            <div className="flex justify-center mt-6 gap-2 md:hidden">
+                {Array.from({ length: SERVICES.length }).map((_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => setCurrentIndex(idx)}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                            idx === currentIndex ? 'bg-primary w-4' : 'bg-gray-300'
+                        }`}
+                        aria-label={`Ir para slide ${idx + 1}`}
+                    />
+                ))}
+            </div>
         </div>
 
-        <div className="mt-12 md:mt-16 text-center">
+        <div className="mt-12 text-center">
           <a
             href="#agendar"
             onClick={(e) => handleNavClick(e, '#agendar')}
             className="inline-flex items-center text-primary font-semibold hover:text-navy transition-colors group cursor-pointer text-sm md:text-base"
           >
-            Ver todos os tratamentos
+            Agendar minha avaliação
             <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>

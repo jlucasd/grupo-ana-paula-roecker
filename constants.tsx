@@ -1,9 +1,18 @@
 import { 
-  Flower2, 
-  HeartPulse, 
-  Brain, 
+  Smile, 
+  Zap, 
   Activity, 
-  CheckCircle2 
+  Scan, 
+  Stethoscope, 
+  Microscope, 
+  Baby, 
+  MonitorSmartphone, 
+  User, 
+  Puzzle, 
+  ClipboardList, 
+  Sparkles, 
+  Anchor,
+  Flower2
 } from 'lucide-react';
 import { NavItem, ServiceItem } from './types';
 
@@ -21,7 +30,7 @@ export const CONTACT_INFO = {
   address: "Centro Executivo Milenium - R. Cel. Fernandes Martins, 470 - Salas 301 e 303 - Progresso, Laguna - SC, 88790-000",
   phone: "(48) 99131-6601",
   whatsapp: "https://wa.me/554891959997",
-  instagram: "https://www.instagram.com/dra.anapaularoecker/",
+  instagram: "https://www.instagram.com/grupoanaroecker/",
   facebook: "https://www.facebook.com/grupoanaroecker/",
   email: "contato@grupoapr.com.br"
 };
@@ -38,24 +47,74 @@ export const NAV_ITEMS: NavItem[] = [
 
 export const SERVICES: ServiceItem[] = [
   {
-    title: "Estética Avançada",
-    description: "Procedimentos faciais e corporais com as tecnologias mais modernas do mercado.",
-    icon: Flower2
+    title: "Ortodontia",
+    description: "Correção da posição dos dentes e ossos maxilares para um sorriso alinhado.",
+    icon: Smile
   },
   {
-    title: "Saúde Integrativa",
-    description: "Uma visão global da sua saúde, focando na prevenção e longevidade.",
-    icon: HeartPulse
+    title: "Laserterapia",
+    description: "Tecnologia avançada para tratamentos indolores e cicatrização acelerada.",
+    icon: Zap
   },
   {
-    title: "Nutrição & Mente",
-    description: "Acompanhamento nutricional aliado ao bem-estar mental e emocional.",
-    icon: Brain
-  },
-  {
-    title: "Performance",
-    description: "Protocolos para otimizar sua performance física e mental no dia a dia.",
+    title: "Periodontia",
+    description: "Prevenção e tratamento de doenças da gengiva e tecidos de sustentação.",
     icon: Activity
+  },
+  {
+    title: "Radiologia",
+    description: "Diagnósticos precisos por imagem para um planejamento seguro.",
+    icon: Scan
+  },
+  {
+    title: "Cirurgia Bucomaxilofacial",
+    description: "Tratamentos cirúrgicos de problemas funcionais e estéticos da face.",
+    icon: Stethoscope
+  },
+  {
+    title: "Endodontia",
+    description: "Tratamento de canal especializado para salvar dentes danificados.",
+    icon: Microscope
+  },
+  {
+    title: "Odontopediatria",
+    description: "Cuidado preventivo e curativo dedicado à saúde bucal das crianças.",
+    icon: Baby
+  },
+  {
+    title: "Escaneamento Digital",
+    description: "Alta precisão em moldes digitais sem o desconforto das massas tradicionais.",
+    icon: MonitorSmartphone
+  },
+  {
+    title: "Harmonização Corporal",
+    description: "Procedimentos estéticos para equilíbrio e contorno corporal.",
+    icon: User
+  },
+  {
+    title: "Próteses Dentárias",
+    description: "Reabilitação oral para recuperar a função e a estética do sorriso.",
+    icon: Puzzle
+  },
+  {
+    title: "Clínica Geral",
+    description: "Manutenção da saúde bucal, limpeza e diagnósticos preventivos.",
+    icon: ClipboardList
+  },
+  {
+    title: "Dentística e Estética",
+    description: "Facetas, clareamento e restaurações para um sorriso radiante.",
+    icon: Sparkles
+  },
+  {
+    title: "Implantodontia",
+    description: "Implantes dentários de alta qualidade para repor dentes perdidos.",
+    icon: Anchor
+  },
+  {
+    title: "Harmonização Facial",
+    description: "Procedimentos para realçar a beleza natural e equilibrar os traços da face.",
+    icon: Flower2
   }
 ];
 
