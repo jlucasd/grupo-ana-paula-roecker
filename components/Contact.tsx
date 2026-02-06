@@ -29,8 +29,38 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Validation Check
+  const isFormValid = 
+    formData.name.trim() !== '' &&
+    formData.phone.trim() !== '' &&
+    formData.phone.replace(/\D/g, '').length >= 10 && // Check for valid phone length (min 10 digits)
+    formData.origin !== '' &&
+    formData.procedure !== '' &&
+    formData.consent === true;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
+
+    // Phone Mask Logic
+    if (id === 'phone') {
+        let v = value.replace(/\D/g, "");
+        v = v.slice(0, 11); // Limit to 11 digits max
+
+        if (v.length > 10) {
+            // (XX) XXXXX-XXXX
+            v = v.replace(/^(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+        } else if (v.length > 6) {
+            // (XX) XXXX-XXXX
+            v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+        } else if (v.length > 2) {
+            // (XX) XXX
+            v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+        }
+        
+        setFormData(prev => ({ ...prev, [id]: v }));
+        return;
+    }
+
     // Checkbox special handling
     if (e.target.type === 'checkbox') {
        const checked = (e.target as HTMLInputElement).checked;
@@ -44,7 +74,7 @@ const Contact: React.FC = () => {
     e.preventDefault();
     
     if (!formData.consent) {
-        alert("É necessário consentir com o contato (LGPD).");
+        alert("É necessário consentir com o cadastro.");
         return;
     }
 
@@ -107,7 +137,7 @@ const Contact: React.FC = () => {
           procedure: '', 
           objective: '', 
           consent: false 
-      });
+        });
     }
   };
 
@@ -210,15 +240,19 @@ const Contact: React.FC = () => {
                     className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer"
                     required
                 />
-                <label htmlFor="consent" className="text-sm text-gray-500 cursor-pointer">
-                    Declaro que o lead consentiu com o contato (LGPD).
+                <label htmlFor="consent" className="text-sm text-gray-500 cursor-pointer select-none">
+                    Concordo com o cadastro dos meus dados para contato.
                 </label>
             </div>
             
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full py-4 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition-all hover:shadow-xl transform hover:-translate-y-0.5 text-base md:text-lg disabled:opacity-70 disabled:cursor-not-allowed"
+              disabled={isSubmitting || !isFormValid}
+              className={`w-full py-4 font-bold rounded-lg shadow-lg transition-all transform text-base md:text-lg 
+                ${isSubmitting || !isFormValid 
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none' 
+                  : 'bg-primary text-white hover:bg-yellow-600 hover:shadow-xl hover:-translate-y-0.5'
+                }`}
             >
               {isSubmitting ? 'Processando...' : 'Solicitar Agendamento via WhatsApp'}
             </button>
