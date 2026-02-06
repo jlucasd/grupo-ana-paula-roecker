@@ -9,6 +9,8 @@ import { NavItem, ServiceItem } from './types';
 
 // Image URLs
 export const IMAGES = {
+  // Logo do topo
+  LOGO: "https://scontent.fccm3-1.fna.fbcdn.net/v/t39.30808-6/487087147_1057316919747947_8319122172228738110_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=3zZQrJKusfkQ7kNvwGAKkBp&_nc_oc=Adm-abH7fMgcD78nDPMwhlE74njaGQux3vrTwyVRXahiHy8nuaACyxFipQyz_BGyUlvvnWDdJUnxNBbS8pKliXh2&_nc_zt=23&_nc_ht=scontent.fccm3-1.fna&_nc_gid=m6oPHTgL9CoRUGndptZPAA&oh=00_AfsIaXVGXkDfdk1tZdHBhVC4lJKL5wihjlNRRyJuUDQ5Sw&oe=698B317E",
   // Imagem da Dra. Ana Paula (Mulher)
   DOCTOR: "https://lh3.googleusercontent.com/p/AF1QipONsN8BZ2w1GsmyUj-hPqk8uR205S9ZR1y9AvZi=s680-w680-h510-rw",
   // Imagem da Recepção/Interior (Sobre Nós)
@@ -20,6 +22,7 @@ export const CONTACT_INFO = {
   phone: "(48) 99131-6601",
   whatsapp: "https://wa.me/554891959997",
   instagram: "https://www.instagram.com/dra.anapaularoecker/",
+  facebook: "https://www.facebook.com/grupoanaroecker/",
   email: "contato@grupoapr.com.br"
 };
 

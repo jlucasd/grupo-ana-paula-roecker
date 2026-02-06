@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { NAV_ITEMS } from '../constants';
+import { NAV_ITEMS, IMAGES } from '../constants';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,8 +43,13 @@ const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
+          {/* Logo Section */}
+          <div className="flex-shrink-0 flex items-center gap-3">
+            <img 
+              src={IMAGES.LOGO} 
+              alt="Logo Grupo APR" 
+              className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover shadow-sm border border-gray-100" 
+            />
             <span className="font-display text-2xl font-bold text-navy tracking-wide">
               GRUPO <span className="text-primary">APR</span>
             </span>

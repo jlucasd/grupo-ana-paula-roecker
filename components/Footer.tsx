@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Instagram } from 'lucide-react';
+import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react';
 import { CONTACT_INFO } from '../constants';
 
 const Footer: React.FC = () => {
@@ -21,23 +21,23 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="contato" className="bg-navy text-white pt-16 pb-8 border-t border-gray-800">
+    <footer id="contato" className="bg-navy text-white pt-12 md:pt-16 pb-8 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12 text-center md:text-left">
           
           {/* Brand */}
-          <div className="space-y-4">
-            <span className="font-display text-2xl font-bold tracking-wide block mb-4">
+          <div className="space-y-4 flex flex-col items-center md:items-start">
+            <span className="font-display text-2xl font-bold tracking-wide mb-2 md:mb-4">
               GRUPO <span className="text-primary">APR</span>
             </span>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
               Referência em saúde integrativa e estética avançada. Cuidando de você em todos os detalhes.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-primary">Navegação</h4>
+            <h4 className="text-lg font-semibold mb-3 md:mb-4 text-primary">Navegação</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
                 <a 
@@ -80,18 +80,18 @@ const Footer: React.FC = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-primary">Contato</h4>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li className="flex items-start">
-                <MapPin className="text-primary mr-2 flex-shrink-0" size={18} />
+            <h4 className="text-lg font-semibold mb-3 md:mb-4 text-primary">Contato</h4>
+            <ul className="space-y-3 text-sm text-gray-400 flex flex-col items-center md:items-start">
+              <li className="flex items-start text-center md:text-left">
+                <MapPin className="text-primary md:mr-2 mb-1 md:mb-0 flex-shrink-0 mt-0.5 hidden md:block" size={16} />
                 <span className="max-w-[200px]">{CONTACT_INFO.address}</span>
               </li>
               <li className="flex items-center">
-                <Phone className="text-primary mr-2 flex-shrink-0" size={18} />
+                <Phone className="text-primary mr-2 flex-shrink-0 hidden md:block" size={16} />
                 <span>{CONTACT_INFO.phone}</span>
               </li>
               <li className="flex items-center">
-                <Mail className="text-primary mr-2 flex-shrink-0" size={18} />
+                <Mail className="text-primary mr-2 flex-shrink-0 hidden md:block" size={16} />
                 <span>{CONTACT_INFO.email}</span>
               </li>
             </ul>
@@ -99,8 +99,8 @@ const Footer: React.FC = () => {
 
           {/* Socials */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-primary">Redes Sociais</h4>
-            <div className="flex space-x-4">
+            <h4 className="text-lg font-semibold mb-3 md:mb-4 text-primary">Redes Sociais</h4>
+            <div className="flex space-x-4 justify-center md:justify-start">
               <a 
                 href={CONTACT_INFO.instagram}
                 target="_blank"
@@ -109,6 +109,15 @@ const Footer: React.FC = () => {
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
+              </a>
+              <a 
+                href={CONTACT_INFO.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1877F2] hover:text-white transition-all"
+                aria-label="Facebook"
+              >
+                <Facebook size={20} />
               </a>
               <a 
                 href={CONTACT_INFO.whatsapp}

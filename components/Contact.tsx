@@ -30,15 +30,15 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="agendar" className="py-24 bg-white scroll-mt-28">
+    <section id="agendar" className="py-16 md:py-24 bg-white scroll-mt-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 p-8 md:p-12 lg:p-16 text-center">
+        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-gray-100 p-6 md:p-12 lg:p-16 text-center">
           
-          <h2 className="text-3xl md:text-5xl font-display text-navy mb-6">
+          <h2 className="text-3xl md:text-5xl font-display text-navy mb-4 md:mb-6 leading-tight">
             Pronto para transformar sua vida?
           </h2>
           
-          <p className="text-gray-600 mb-10 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">
             Entre em contato conosco e agende sua avaliação inicial. Estamos prontos para receber você com todo o cuidado que merece.
           </p>
           
@@ -51,7 +51,7 @@ const Contact: React.FC = () => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Nome Completo"
-                className="w-full px-4 py-3 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base"
                 required
               />
             </div>
@@ -64,7 +64,7 @@ const Contact: React.FC = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Seu melhor e-mail"
-                className="w-full px-4 py-3 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base"
                 required
               />
             </div>
@@ -77,14 +77,14 @@ const Contact: React.FC = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Telefone (WhatsApp)"
-                className="w-full px-4 py-3 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base"
                 required
               />
             </div>
             
             <button
               type="submit"
-              className="w-full py-4 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition-all hover:shadow-xl transform hover:-translate-y-0.5"
+              className="w-full py-4 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition-all hover:shadow-xl transform hover:-translate-y-0.5 text-base md:text-lg"
             >
               Solicitar Agendamento via WhatsApp
             </button>
