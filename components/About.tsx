@@ -10,10 +10,11 @@ const About: React.FC = () => {
           
           {/* Image Side */}
           <div className="relative order-2 lg:order-1">
-            <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl bg-gray-200">
+            {/* Changed from aspect-[4/5] to aspect-video to fit the landscape signage image */}
+            <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gray-200">
               <img
                 src={IMAGES.INTERIOR}
-                alt="Interior da clínica elegante"
+                alt="Recepção Dra. Ana Paula Roecker"
                 className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-700"
               />
             </div>

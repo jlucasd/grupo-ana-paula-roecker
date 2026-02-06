@@ -9,9 +9,10 @@ import { NavItem, ServiceItem } from './types';
 
 // Image URLs
 export const IMAGES = {
-  // SUBSTITUA AQUI: Coloque o link direto da sua foto hospedada abaixo.
-  DOCTOR: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=3387&ixlib=rb-4.0.3",
-  INTERIOR: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRHU5aqeXfXz8RE8kDxB_cUhJJNevEF3-BiUgGJLkEJ_J0C1jYwIPU1EBXEL2M8HmvaJ-2BIJ1uj0vE85gDYblIi0-_eyF2hcYX6eXQcA1D1g_aVWEKyx3pxOtX-HS1QqsV4OreVgHiiDoa-VUE7j08kw58L10Bx4YOwlYJ8Lgwbpe0Je7i2_J0JaAGO6IkYHUIpOHa5LU--zRCpyre6ATy2EuyLlfWgVDiHenxnIY9O5gWl7Zd9DK4-gmu7tza3djhJ5o6czUp2gK"
+  // Imagem da Dra. Ana Paula (Mulher)
+  DOCTOR: "https://lh3.googleusercontent.com/p/AF1QipONsN8BZ2w1GsmyUj-hPqk8uR205S9ZR1y9AvZi=s680-w680-h510-rw",
+  // Imagem da Recepção/Interior (Sobre Nós)
+  INTERIOR: "https://lh3.googleusercontent.com/p/AF1QipMMIt8mi3SaHFxbt5qhvgYML3odBjP-jqyVWnQT=s680-w680-h510-rw"
 };
 
 export const CONTACT_INFO = {
