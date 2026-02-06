@@ -76,7 +76,7 @@ const Services: React.FC = () => {
         {/* Carousel Container */}
         <div className="relative group px-0 md:px-12">
             
-            {/* Buttons - Hidden on mobile usually, but kept here for control */}
+            {/* Desktop Buttons - Hidden on mobile */}
             <button 
                 onClick={prevSlide}
                 className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 bg-white text-navy rounded-full shadow-lg hover:bg-primary hover:text-white transition-all hidden md:flex items-center justify-center border border-gray-100"
@@ -120,18 +120,36 @@ const Services: React.FC = () => {
                 </div>
             </div>
             
-            {/* Mobile Navigation Dots */}
-            <div className="flex justify-center mt-6 gap-2 md:hidden">
-                {Array.from({ length: SERVICES.length }).map((_, idx) => (
-                    <button
-                        key={idx}
-                        onClick={() => setCurrentIndex(idx)}
-                        className={`w-2 h-2 rounded-full transition-all ${
-                            idx === currentIndex ? 'bg-primary w-4' : 'bg-gray-300'
-                        }`}
-                        aria-label={`Ir para slide ${idx + 1}`}
-                    />
-                ))}
+            {/* Mobile Navigation Controls (Arrows + Dots) */}
+            <div className="flex items-center justify-center mt-6 gap-4 md:hidden">
+                <button
+                    onClick={prevSlide}
+                    className="p-2 bg-white text-navy rounded-full shadow-md border border-gray-200 hover:bg-gray-50 active:scale-95 transition-all"
+                    aria-label="Anterior"
+                >
+                    <ChevronLeft size={20} />
+                </button>
+
+                <div className="flex gap-2">
+                    {Array.from({ length: SERVICES.length }).map((_, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => setCurrentIndex(idx)}
+                            className={`w-2 h-2 rounded-full transition-all ${
+                                idx === currentIndex ? 'bg-primary w-4' : 'bg-gray-300'
+                            }`}
+                            aria-label={`Ir para slide ${idx + 1}`}
+                        />
+                    ))}
+                </div>
+
+                <button
+                    onClick={nextSlide}
+                    className="p-2 bg-white text-navy rounded-full shadow-md border border-gray-200 hover:bg-gray-50 active:scale-95 transition-all"
+                    aria-label="Próximo"
+                >
+                    <ChevronRight size={20} />
+                </button>
             </div>
         </div>
 
