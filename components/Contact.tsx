@@ -1,32 +1,114 @@
 import React, { useState } from 'react';
+import { SHEET_ENDPOINT } from '../constants';
+
+const ORIGINS = [
+  "Meta Ads (Insta/Face)",
+  "Google Ads",
+  "Instagram Orgânico",
+  "Indicação",
+  "WhatsApp Direto"
+];
+
+const PROCEDURES = [
+  "Harmonização Facial",
+  "Toxina Botulínica",
+  "Preenchedores",
+  "Bioestimuladores",
+  "Fios de Sustentação",
+  "Avaliação Geral"
+];
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    phone: ''
+    phone: '',
+    origin: '',
+    procedure: '',
+    objective: '',
+    consent: false
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.id]: e.target.value
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    // Checkbox special handling
+    if (e.target.type === 'checkbox') {
+       const checked = (e.target as HTMLInputElement).checked;
+       setFormData(prev => ({ ...prev, [id]: checked }));
+    } else {
+       setFormData(prev => ({ ...prev, [id]: value }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Format message for WhatsApp
-    const message = `Olá! Gostaria de agendar uma avaliação.\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}\n*Telefone:* ${formData.phone}`;
-    const whatsappNumber = "554891959997"; // Using the number provided by user
+    if (!formData.consent) {
+        alert("É necessário consentir com o contato (LGPD).");
+        return;
+    }
+
+    setIsSubmitting(true);
+    
+    // 1. Format message for WhatsApp
+    const message = `Olá! Gostaria de agendar uma avaliação.\n\n` +
+        `*Nome:* ${formData.name}\n` +
+        `*Telefone:* ${formData.phone}\n` +
+        `*Origem:* ${formData.origin}\n` +
+        `*Interesse:* ${formData.procedure}\n` +
+        `*Objetivo:* ${formData.objective}`;
+
+    const whatsappNumber = "554891959997"; 
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     
-    // Open WhatsApp
+    // 2. Open WhatsApp immediately (Priority Action)
     window.open(whatsappUrl, '_blank');
-    
-    // Optional: Reset form
-    setFormData({ name: '', email: '', phone: '' });
+
+    // 3. Send data to Spreadsheet (Background Action)
+    if (SHEET_ENDPOINT) {
+      const data = new FormData();
+      data.append('Nome', formData.name);
+      data.append('Telefone', formData.phone);
+      data.append('Origem', formData.origin);
+      data.append('Procedimento', formData.procedure);
+      data.append('Objetivo', formData.objective);
+      data.append('Consentimento', formData.consent ? 'Sim' : 'Não');
+      data.append('Data', new Date().toLocaleString('pt-BR'));
+
+      fetch(SHEET_ENDPOINT, {
+        method: 'POST',
+        body: data,
+        mode: 'no-cors' // Important for Google Apps Script simple requests
+      })
+      .then(() => {
+        console.log("Dados enviados para a planilha com sucesso!");
+      })
+      .catch((err) => {
+        console.error("Erro ao salvar na planilha:", err);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setFormData({ 
+            name: '', 
+            phone: '', 
+            origin: '', 
+            procedure: '', 
+            objective: '', 
+            consent: false 
+        });
+      });
+    } else {
+      // If no endpoint is configured, just reset
+      setIsSubmitting(false);
+      setFormData({ 
+          name: '', 
+          phone: '', 
+          origin: '', 
+          procedure: '', 
+          objective: '', 
+          consent: false 
+      });
+    }
   };
 
   return (
@@ -50,43 +132,95 @@ const Contact: React.FC = () => {
                 id="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Nome Completo"
-                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base"
+                placeholder="Nome Completo *"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base disabled:opacity-50"
                 required
               />
             </div>
             
             <div>
-              <label htmlFor="email" className="sr-only">E-mail</label>
-              <input
-                type="email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Seu melhor e-mail"
-                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base"
-                required
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="phone" className="sr-only">Telefone</label>
+              <label htmlFor="phone" className="sr-only">WhatsApp (com DDD)</label>
               <input
                 type="tel"
                 id="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="Telefone (WhatsApp)"
-                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base"
+                placeholder="WhatsApp (com DDD) *"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base disabled:opacity-50"
                 required
               />
+            </div>
+
+            <div>
+              <label htmlFor="origin" className="sr-only">Origem do Contato</label>
+              <select
+                id="origin"
+                value={formData.origin}
+                onChange={handleChange}
+                disabled={isSubmitting}
+                className={`w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base disabled:opacity-50 ${formData.origin ? 'text-gray-900' : 'text-gray-400'}`}
+                required
+              >
+                <option value="" disabled>Origem do Contato *</option>
+                {ORIGINS.map(opt => (
+                  <option key={opt} value={opt} className="text-gray-900">{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="procedure" className="sr-only">Procedimento de Interesse Inicial</label>
+              <select
+                id="procedure"
+                value={formData.procedure}
+                onChange={handleChange}
+                disabled={isSubmitting}
+                className={`w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base disabled:opacity-50 ${formData.procedure ? 'text-gray-900' : 'text-gray-400'}`}
+                required
+              >
+                <option value="" disabled>Procedimento de Interesse Inicial *</option>
+                {PROCEDURES.map(opt => (
+                  <option key={opt} value={opt} className="text-gray-900">{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="objective" className="sr-only">Objetivo Principal</label>
+              <textarea
+                id="objective"
+                value={formData.objective}
+                onChange={handleChange}
+                placeholder="Qual o objetivo principal? (Ex: Incomodada com bigode chinês...)"
+                rows={3}
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 md:py-4 rounded-lg bg-white border border-gray-300 text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none shadow-sm text-base disabled:opacity-50 resize-none"
+              />
+            </div>
+
+            <div className="flex items-start gap-3 px-1">
+                <input 
+                    type="checkbox" 
+                    id="consent"
+                    checked={formData.consent}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                    className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer"
+                    required
+                />
+                <label htmlFor="consent" className="text-sm text-gray-500 cursor-pointer">
+                    Declaro que o lead consentiu com o contato (LGPD).
+                </label>
             </div>
             
             <button
               type="submit"
-              className="w-full py-4 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition-all hover:shadow-xl transform hover:-translate-y-0.5 text-base md:text-lg"
+              disabled={isSubmitting}
+              className="w-full py-4 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition-all hover:shadow-xl transform hover:-translate-y-0.5 text-base md:text-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Solicitar Agendamento via WhatsApp
+              {isSubmitting ? 'Processando...' : 'Solicitar Agendamento via WhatsApp'}
             </button>
             
             <p className="text-xs text-center text-gray-500 mt-4">

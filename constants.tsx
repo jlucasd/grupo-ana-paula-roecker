@@ -26,6 +26,10 @@ export const CONTACT_INFO = {
   email: "contato@grupoapr.com.br"
 };
 
+// URL do Web App do Google Apps Script (Deixe vazio se não estiver configurado)
+// Exemplo: "https://script.google.com/macros/s/AKfycbx.../exec"
+export const SHEET_ENDPOINT = ""; 
+
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Sobre', href: '#sobre' },
   { label: 'Serviços', href: '#servicos' },
