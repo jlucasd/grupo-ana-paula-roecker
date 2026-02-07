@@ -75,8 +75,8 @@ const Hero: React.FC = () => {
                 className="object-cover object-top w-full h-full rounded-2xl lg:rounded-t-none lg:rounded-bl-[100px] shadow-2xl lg:shadow-none relative z-10"
               />
               
-              {/* Floating Badge - Positioned for better mobile visibility or hidden on very small screens */}
-              <div className="hidden md:block absolute -right-4 lg:-left-12 bottom-8 lg:bottom-24 bg-white p-4 lg:p-6 rounded-lg shadow-xl z-20 max-w-[200px] lg:max-w-xs border-l-4 border-primary">
+              {/* Floating Badge - Always visible, always on left */}
+              <div className="absolute left-4 md:-left-8 lg:-left-12 bottom-6 lg:bottom-24 bg-white p-4 lg:p-6 rounded-lg shadow-xl z-20 max-w-[180px] lg:max-w-xs border-l-4 border-primary">
                 <div className="flex items-center gap-2 lg:gap-3 mb-2">
                   <BadgeCheck className="text-primary w-5 h-5 lg:w-6 lg:h-6" />
                   <span className="font-bold text-navy text-xs lg:text-sm">Referência Nacional</span>
